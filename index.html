@@ -5,152 +5,197 @@
     <title>RM-NETWORK ULTIMATE AUTO-SYSTEM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        body { font-family: sans-serif; padding: 10px; background: #0a0a0b; color: #e0e0e0; margin: 0; }
-        .card { background: #16161d; padding: 25px; border-radius: 20px; max-width: 600px; margin: auto; border: 1px solid #2c2c3e; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h2 { color: #28a745; margin: 0; font-size: 22px; }
-        label { font-size: 11px; color: #aaa; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; }
-        input, select, button { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #333; box-sizing: border-box; font-size: 14px; background: #1f1f2e; color: #fff; }
-        .btn-main { background: linear-gradient(135deg, #28a745, #218838); color: white; font-weight: bold; border: none; cursor: pointer; height: 50px; }
-        .btn-copy { background: #3d3d5c; color: white; border: none; padding: 8px; cursor: pointer; border-radius: 6px; font-size: 12px; margin-bottom: 10px; }
-        textarea { width: 100%; height: 80px; font-size: 11px; border-radius: 8px; background: #000; color: #00ff41; border: 1px solid #333; resize: none; padding: 10px; box-sizing: border-box; font-family: monospace; }
-        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; background: #1e1e2d; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background: #28a745; color: white; }
-        .history-sec { margin-top: 30px; border-top: 2px dashed #333; padding-top: 20px; }
-        .btn-del { background: #ff4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+        :root { --primary-color: #00ff88; --bg-dark: #0f0f12; --card-bg: #1a1a24; }
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: var(--bg-dark); color: #e0e0e0; margin: 0; display: flex; justify-content: center; }
+        .card-wrapper { position: relative; padding: 3px; border-radius: 25px; background: linear-gradient(90deg, #ff0000, #ff7700, #ffea00, #00ff00, #00ffff, #0084ff, #8400ff, #ff00ff, #ff0000); background-size: 400%; animation: move-bg 8s linear infinite; max-width: 500px; width: 100%; box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
+        @keyframes move-bg { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 22px; color: #fff; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h2 { color: var(--primary-color); margin: 0; font-size: 24px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+        label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; margin-left: 5px; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; }
+        .btn-copy { background: #444; color: var(--primary-color); border: none; padding: 2px 8px; border-radius: 4px; font-size: 9px; cursor: pointer; margin-bottom: 5px; }
+        input, select, button { width: 100%; padding: 14px; margin-bottom: 18px; border-radius: 12px; border: 1px solid #333; box-sizing: border-box; font-size: 14px; background: #252533; color: #fff; outline: none; }
+        button { border: none; color: #000; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .result-box { background: #0d0d12; padding: 15px; border-radius: 12px; border: 1px solid #00ff88; margin-top: 20px; display: none; }
+        textarea { width: 100%; height: 90px; background: #1a1a24; color: #00ff88; border: 1px solid #333; border-radius: 8px; resize: none; font-family: 'Courier New', monospace; font-size: 10px; padding: 10px; margin-bottom: 10px; }
+        .btn-wa { background: linear-gradient(45deg, #25d366, #128c7e); color: white; margin-bottom: 0; }
+        .btn-cal { background: linear-gradient(45deg, #4285f4, #34a853); color: white; margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 11px; }
+        th, td { border-bottom: 1px solid #333; padding: 12px; text-align: left; }
+        th { color: var(--primary-color); text-transform: uppercase; font-size: 9px; }
+        tr.clickable { cursor: pointer; }
+        tr.clickable:hover { background: rgba(0, 255, 136, 0.1); }
+        .rekap-box { background: #252533; padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 4px solid var(--primary-color); }
+        .rekap-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; }
+        .sisa-waktu { font-size: 9px; color: #ffea00; display: block; }
     </style>
 </head>
-<body>
-    <div class="card">
-        <div class="header">
-            <h2>笞｡ RM-SYSTEM AUTO</h2>
-            <p style="font-size:12px; color:#777;">System Management User CHR</p>
-        </div>
-        
-        <label>TOKEN BOT TELEGRAM</label>
-        <input type="text" id="token" oninput="saveConfig()" placeholder="Cukup input sekali...">
+<body onload="muatAwal()">
 
-        <label>CHAT ID TELEGRAM</label>
-        <input type="text" id="chatId" oninput="saveConfig()" placeholder="Cukup input sekali...">
+    <div class="card-wrapper">
+        <div class="card">
+            <div class="header">
+                <h2>RM-NETWORK</h2>
+                <p style="font-size: 10px; color: #888; letter-spacing: 3px;">PREMIUM AUTOMATION SYSTEM</p>
+            </div>
 
-        <hr style="border:0; border-top:1px solid #333; margin-bottom:15px;">
+            <label>IP Public Server VPN</label>
+            <input type="text" id="ip_serv" placeholder="41.216.190.85" onchange="simpanConfig()">
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <div><label>Nama User</label><input type="text" id="nama" placeholder="Contoh: imas"></div>
-            <div><label>No Urut (IP)</label><input type="number" id="no" placeholder="Contoh: 10"></div>
-        </div>
+            <div class="grid">
+                <div><label>Bot Token Telegram</label><input type="password" id="tok" onchange="simpanConfig()"></div>
+                <div><label>Chat ID Telegram</label><input type="text" id="cid" onchange="simpanConfig()"></div>
+            </div>
 
-        <label>Layanan & WhatsApp</label>
-        <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:10px;">
-            <select id="tipe">
-                <option value="vpn">VPN REMOTE</option>
-                <option value="pppoe">PPPoE LOKAL</option>
-            </select>
-            <input type="text" id="wa" placeholder="628xxx">
-        </div>
+            <label>Nama Pelanggan (No. Urut: <span id="noUrutDisplay" style="color:var(--primary-color)">1</span>)</label>
+            <input type="text" id="n" placeholder="Nama Pelanggan">
 
-        <button class="btn-main" onclick="generateAll()">櫨 GENERATE & SIMPAN RIWAYAT</button>
+            <div class="grid">
+                <div><label>WhatsApp</label><input type="number" id="wa" placeholder="628xxx"></div>
+                <div><label>Layanan</label>
+                    <select id="lay">
+                        <option value="VPN">VPN REMOTE</option>
+                        <option value="PPPOE">PPPOE INTERNET</option>
+                    </select>
+                </div>
+            </div>
 
-        <div id="result" style="display:none;">
-            <h4>SCRIPT SERVER (PASTE KE CHR)</h4>
-            <textarea id="sServer"></textarea>
-            <button class="btn-copy" onclick="copy('sServer')">SALIN SCRIPT SERVER</button>
-            <hr>
-        </div>
+            <div class="grid">
+                <div><label>Harga (Rp)</label><input type="number" id="hrg" value="25000"></div>
+                <div><label>Masa Aktif (Hari)</label><input type="number" id="hr" value="30"></div>
+            </div>
 
-        <div class="history-sec">
-            <h4>搭 RIWAYAT USER TERDAFTAR</h4>
-            <table id="userTable">
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>IP</th>
-                        <th>Tempo</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="historyBody"></tbody>
+            <button onclick="buat()" style="background: linear-gradient(45deg, #00b362, #00ff88);">SIMPAN & GENERATE</button>
+
+            <div id="result" class="result-box">
+                <div class="label-row"><label>Script Scheduler (Telegram & Putus):</label><button class="btn-copy" onclick="copyText('sSch')">COPY</button></div>
+                <textarea id="sSch" readonly></textarea>
+                
+                <div class="label-row"><label>Script Server (Paste di Server):</label><button class="btn-copy" onclick="copyText('sServ')">COPY</button></div>
+                <textarea id="sServ" readonly></textarea>
+                
+                <div class="label-row"><label>Script Client & Info Port:</label><button class="btn-copy" onclick="copyText('sCli')">COPY</button></div>
+                <textarea id="sCli" readonly style="height: 120px;"></textarea>
+                
+                <div class="grid" style="margin-top: 10px;">
+                    <button class="btn-wa" onclick="kirimWA()">Kirim WA</button>
+                    <button class="btn-cal" onclick="tambahKalender()">Kalender</button>
+                </div>
+            </div>
+
+            <table>
+                <thead><tr><th>No</th><th>Nama & Sisa Waktu</th><th>Tempo</th><th>Harga</th></tr></thead>
+                <tbody id="tabelRiwayat"></tbody>
             </table>
-            <button onclick="clearHistory()" style="background:none; border:none; color:#777; font-size:10px; margin-top:10px; cursor:pointer;">Hapus Semua Riwayat</button>
+            <div class="rekap-box">
+                <div class="rekap-row"><span>Total Omset:</span><span id="totalTagihan">Rp 0</span></div>
+            </div>
+            <button onclick="hapusSemua()" style="background:#ff4d4d; margin-top:15px; font-size:10px; padding:10px;">RESET DATABASE</button>
         </div>
     </div>
 
     <script>
-        // Ambil data otomatis saat web dibuka
-        window.onload = function() {
-            document.getElementById('token').value = localStorage.getItem('rm_token') || '';
-            document.getElementById('chatId').value = localStorage.getItem('rm_chatId') || '';
-            renderHistory();
-        };
-
-        function saveConfig() {
-            localStorage.setItem('rm_token', document.getElementById('token').value);
-            localStorage.setItem('rm_chatId', document.getElementById('chatId').value);
+        function muatAwal() {
+            document.getElementById('tok').value = localStorage.getItem('rm_token') || '';
+            document.getElementById('cid').value = localStorage.getItem('rm_cid') || '';
+            document.getElementById('ip_serv').value = localStorage.getItem('rm_ip') || '41.216.190.85';
+            muatRiwayat();
         }
 
-        function generateAll() {
-            var tok = document.getElementById('token').value;
-            var cid = document.getElementById('chatId').value;
-            var n = document.getElementById('nama').value.replace(/\s+/g, '');
-            var i = document.getElementById('no').value;
-            var tpe = document.getElementById('tipe').value;
-            var w = document.getElementById('wa').value;
-
-            if(!n || !i || !tok || !cid) { alert("Data harus lengkap!"); return; }
-
-            var s = "41.216.190.85"; 
-            var c = "10.10.10." + i; 
-            var pW = 8000 + parseInt(i); var pM = 9000 + parseInt(i); var pA = 7000 + parseInt(i);
-
-            var t = new Date(); t.setDate(t.getDate() + 30);
-            var tStr = t.toLocaleDateString('id-ID', { day:'numeric', month:'long' });
-            var tMik = t.toLocaleDateString('en-US', { month:'short', day:'2-digit', year:'numeric' }).replace(/,/g, '');
-
-            // Simpan ke Riwayat
-            var history = JSON.parse(localStorage.getItem('rm_history') || '[]');
-            history.push({ nama: n, ip: c, tempo: tStr });
-            localStorage.setItem('rm_history', JSON.stringify(history));
-            renderHistory();
-
-            // Generate Script
-            document.getElementById('sServer').value = "/ppp secret add name=\""+n+"\" password=\""+n+"123\" service=l2tp remote-address="+c+" local-address=10.10.10.1 comment=\""+tMik+"\"; /ip firewall nat add action=dst-nat chain=dstnat dst-address="+s+" dst-port="+pW+" protocol=tcp to-addresses="+c+" to-ports=8291 comment=\""+n+"-Winbox\";";
-            document.getElementById('result').style.display = "block";
-            alert("Berhasil! Riwayat tersimpan.");
+        function simpanConfig() {
+            localStorage.setItem('rm_token', document.getElementById('tok').value);
+            localStorage.setItem('rm_cid', document.getElementById('cid').value);
+            localStorage.setItem('rm_ip', document.getElementById('ip_serv').value);
         }
 
-        function renderHistory() {
-            var history = JSON.parse(localStorage.getItem('rm_history') || '[]');
-            var body = document.getElementById('historyBody');
-            body.innerHTML = "";
-            history.forEach((item, index) => {
-                body.innerHTML += `<tr>
-                    <td>${item.nama}</td>
-                    <td>${item.ip}</td>
-                    <td>${item.tempo}</td>
-                    <td><button class="btn-del" onclick="deleteUser(${index})">X</button></td>
-                </tr>`;
-            });
+        function copyText(id) {
+            document.getElementById(id).select();
+            document.execCommand("copy");
+            alert("Disalin!");
         }
 
-        function deleteUser(index) {
-            var history = JSON.parse(localStorage.getItem('rm_history') || '[]');
-            history.splice(index, 1);
-            localStorage.setItem('rm_history', JSON.stringify(history));
-            renderHistory();
-        }
+        var dG = {}; 
+        function buat() {
+            var n = document.getElementById('n').value, l = document.getElementById('lay').value, hr = document.getElementById('hr').value;
+            var hrg = document.getElementById('hrg').value, tok = document.getElementById('tok').value, cid = document.getElementById('cid').value, wa = document.getElementById('wa').value;
+            var ipS = document.getElementById('ip_serv').value;
+            if(!n || !wa) return alert("Isi Nama & WA!");
 
-        function clearHistory() {
-            if(confirm("Hapus semua riwayat?")) {
-                localStorage.removeItem('rm_history');
-                renderHistory();
+            var h = JSON.parse(localStorage.getItem('rm_gen') || '[]');
+            var indexLama = h.findIndex(item => item.nama === n);
+            var noUrut = (indexLama !== -1) ? h[indexLama].no : h.length + 1;
+
+            var pX = 9090 + noUrut, pW = 8080 + noUrut; 
+
+            var tglExp = new Date(); tglExp.setDate(tglExp.getDate() + parseInt(hr));
+            var tStr = tglExp.toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' }).replace(/ /g, '-');
+            var tSch = tglExp.toLocaleDateString('en-US', { month:'short', day:'2-digit', year:'numeric' }).toLowerCase().replace(/ /g, '/');
+            var pass = "rm" + Math.floor(100 + Math.random() * 899);
+
+            var ev = (l === 'VPN') ? `/ip firewall nat remove [find comment="${n}"];` : `/ppp secret disable [find name="${n}"];`;
+            ev += ` /tool fetch url="https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=Layanan ${l} ${n} EXPIRED" keep-result=no`;
+            document.getElementById('sSch').value = `/system scheduler add name="EXP-${n}" start-date=${tSch} interval=1d on-event="${ev}"`;
+
+            if(l === 'VPN') {
+                document.getElementById('sServ').value = `/ppp secret add name="${n}" password="${pass}" service=l2tp profile=default comment="${tStr}"; /ip firewall nat add action=dst-nat chain=dstnat dst-port=${pX} protocol=tcp to-ports=8291 comment="${n}"; /ip firewall nat add action=dst-nat chain=dstnat dst-port=${pW} protocol=tcp to-ports=80 comment="${n}";`;
+                document.getElementById('sCli').value = `# INFO LOGIN\n# Winbox: ${ipS}:${pX}\n# Mikhmon: http://${ipS}:${pW}\n# --------------------------\n{ /interface l2tp-client add connect-to=${ipS} user="${n}" password="${pass}" name="VPN-RM-NETWORK" disabled=no; /ip service set winbox port=8291; /ip service set www port=80; }`;
+            } else {
+                document.getElementById('sServ').value = `/ppp secret add name="${n}" profile=default comment="${tStr}"`;
+                document.getElementById('sCli').value = `# PPPOE INTERNET\n# Jatuh Tempo: ${tStr}\n# --------------------------\n# Setup pppoe-client manual`;
             }
+            
+            var dataBaru = {no: noUrut, nama: n, lay: l, tempo: tStr, wa: wa, pX: pX, pW: pW, harga: hrg, tglRaw: tglExp.getTime()};
+            if(indexLama !== -1) h[indexLama] = dataBaru; else h.unshift(dataBaru);
+
+            localStorage.setItem('rm_gen', JSON.stringify(h));
+            muatRiwayat();
+            document.getElementById('result').style.display = "block";
+            dG = {wa: wa, nama: n, tStr: tStr, lay: l, ip: ipS, pX: pX, pW: pW, sc: document.getElementById('sCli').value, hrg: hrg, tgl: tglExp};
         }
 
-        function copy(id) {
-            var t = document.getElementById(id); t.select();
-            document.execCommand("copy"); alert("Script disalin!");
+        function muatUlangPelanggan(index) {
+            var h = JSON.parse(localStorage.getItem('rm_gen'));
+            var p = h[index];
+            document.getElementById('n').value = p.nama;
+            document.getElementById('wa').value = p.wa;
+            document.getElementById('lay').value = p.lay;
+            document.getElementById('hrg').value = p.harga;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            buat();
         }
+
+        function muatRiwayat() {
+            var h = JSON.parse(localStorage.getItem('rm_gen') || '[]');
+            var b = document.getElementById('tabelRiwayat');
+            var total = 0; b.innerHTML = "";
+            var skrg = new Date().getTime();
+            h.forEach((item, index) => {
+                total += parseInt(item.harga || 0);
+                var sisa = Math.ceil((item.tglRaw - skrg) / (1000 * 60 * 60 * 24));
+                var teksSisa = sisa > 0 ? sisa + " Hari Lagi" : "EXPIRED";
+                b.innerHTML += `<tr class="clickable" onclick="muatUlangPelanggan(${index})"><td>${item.no}</td><td><b>${item.nama}</b><span class="sisa-waktu">${teksSisa}</span></td><td>${item.tempo}</td><td>${parseInt(item.harga).toLocaleString()}</td></tr>`;
+            });
+            document.getElementById('noUrutDisplay').innerText = h.length + 1;
+            document.getElementById('totalTagihan').innerText = "Rp " + total.toLocaleString();
+        }
+
+        function kirimWA() {
+            var msg = `*[ RM-NETWORK ]*%0AHalo *Kak ${dG.nama}*,%0A%0ATagihan: *Rp ${parseInt(dG.hrg).toLocaleString()}*%0AAktif s/d: *${dG.tStr}*%0A━━━━━━━━━━━━━━━%0A`;
+            if(dG.lay === 'VPN') msg += `🖥️ *Winbox:* ${dG.ip}:${dG.pX}%0A🌐 *Mikhmon:* http://${dG.ip}:${dG.pW}%0A`;
+            msg += `━━━━━━━━━━━━━━━%0A*Script MikroTik:*%0A\`${dG.sc}\`%0A%0ATerima kasih!`;
+            window.open(`https://wa.me/${dG.wa}?text=${msg}`);
+        }
+
+        function tambahKalender() {
+            var start = dG.tgl.toISOString().replace(/-|:|\.\d\d\d/g, "");
+            var title = encodeURIComponent(`JATUH TEMPO: ${dG.nama}`);
+            var details = encodeURIComponent(`Layanan: ${dG.lay}\nPort Winbox: ${dG.pX}\nPort Mikhmon: ${dG.pW}`);
+            window.open(`https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${start}&details=${details}`);
+        }
+
+        function hapusSemua() { if(confirm("Hapus semua database?")) { localStorage.removeItem('rm_gen'); muatRiwayat(); } }
     </script>
 </body>
 </html>
