@@ -2,200 +2,240 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>RM-NETWORK ULTIMATE AUTO-SYSTEM</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RM-REMOTE MASTER | Control Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        :root { --primary-color: #00ff88; --bg-dark: #0f0f12; --card-bg: #1a1a24; }
-        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: var(--bg-dark); color: #e0e0e0; margin: 0; display: flex; justify-content: center; }
-        .card-wrapper { position: relative; padding: 3px; border-radius: 25px; background: linear-gradient(90deg, #ff0000, #ff7700, #ffea00, #00ff00, #00ffff, #0084ff, #8400ff, #ff00ff, #ff0000); background-size: 400%; animation: move-bg 8s linear infinite; max-width: 500px; width: 100%; box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
-        @keyframes move-bg { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-        .card { background: var(--card-bg); padding: 25px; border-radius: 22px; color: #fff; }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h2 { color: var(--primary-color); margin: 0; font-size: 24px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
-        label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; margin-left: 5px; }
-        .label-row { display: flex; justify-content: space-between; align-items: center; }
-        .btn-copy { background: #444; color: var(--primary-color); border: none; padding: 2px 8px; border-radius: 4px; font-size: 9px; cursor: pointer; margin-bottom: 5px; }
-        input, select, button { width: 100%; padding: 14px; margin-bottom: 18px; border-radius: 12px; border: 1px solid #333; box-sizing: border-box; font-size: 14px; background: #252533; color: #fff; outline: none; }
-        button { border: none; color: #000; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .result-box { background: #0d0d12; padding: 15px; border-radius: 12px; border: 1px solid #00ff88; margin-top: 20px; display: none; }
-        textarea { width: 100%; height: 90px; background: #1a1a24; color: #00ff88; border: 1px solid #333; border-radius: 8px; resize: none; font-family: 'Courier New', monospace; font-size: 10px; padding: 10px; margin-bottom: 10px; }
-        .btn-wa { background: linear-gradient(45deg, #25d366, #128c7e); color: white; margin-bottom: 0; }
-        .btn-cal { background: linear-gradient(45deg, #4285f4, #34a853); color: white; margin-bottom: 0; }
+        :root { --gold: #ffcc00; --bg: #0d0e12; --card: #1c1f26; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; padding: 20px; display: flex; justify-content: center; margin: 0; }
+        .container { max-width: 480px; width: 100%; background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .header { text-align: center; border-bottom: 2px solid var(--gold); margin-bottom: 20px; padding-bottom: 10px; }
+        .header h2 { margin: 0; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+        label { font-size: 10px; color: #aaa; text-transform: uppercase; margin-top: 15px; display: block; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin-top: 5px; background: #252a34; border: 1px solid #444; color: #fff; border-radius: 8px; box-sizing: border-box; outline: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button#btnGen { width: 100%; padding: 15px; background: var(--gold); color: #000; border: none; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; text-transform: uppercase; }
+        .output-box { background: #000; padding: 15px; border-radius: 10px; margin-top: 20px; display: none; border-left: 4px solid var(--gold); }
+        textarea { width: 100%; height: 80px; background: transparent; color: #00ff88; border: none; font-size: 10px; font-family: monospace; resize: none; margin-top: 10px; }
+        .copy-btn { background: #444; color: var(--gold); font-size: 9px; padding: 4px 8px; border-radius: 4px; float: right; cursor: pointer; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 11px; }
-        th, td { border-bottom: 1px solid #333; padding: 12px; text-align: left; }
-        th { color: var(--primary-color); text-transform: uppercase; font-size: 9px; }
-        tr.clickable { cursor: pointer; }
-        tr.clickable:hover { background: rgba(0, 255, 136, 0.1); }
-        .rekap-box { background: #252533; padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 4px solid var(--primary-color); }
-        .rekap-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; }
-        .sisa-waktu { font-size: 9px; color: #ffea00; display: block; }
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid #333; }
+        th { color: var(--gold); }
+        .sisa-teks { color: #ffcc00; font-size: 9px; display: block; }
+        .renew-box { border-left-color: #00d4ff !important; }
+        .btn-del { color: #ff4d4d; font-weight: bold; cursor: pointer; margin-right: 8px; }
+        .rekap-box { background: #252a34; padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 4px solid var(--gold); }
+        .rekap-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: var(--gold); }
+        .info-port { font-size: 8px; color: #00d4ff; display: block; margin-top: 2px; }
+        .btn-renew-action { background: #00d4ff; color: #000; margin-top: 10px; font-size: 10px; padding: 10px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-close { background: #450a0a; color: #fff; font-size: 9px; padding: 8px; border-radius: 6px; width: 100%; border: none; margin-top: 10px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
-<body onload="muatAwal()">
+<body onload="muatData()">
 
-    <div class="card-wrapper">
-        <div class="card">
-            <div class="header">
-                <h2>RM-NETWORK</h2>
-                <p style="font-size: 10px; color: #888; letter-spacing: 3px;">PREMIUM AUTOMATION SYSTEM</p>
-            </div>
+<div class="container">
+    <div class="header">
+        <h2>RM-REMOTE MASTER</h2>
+        <small style="color: #888;">SERVER CONTROL & MONITORING</small>
+    </div>
 
-            <label>IP Public Server VPN</label>
-            <input type="text" id="ip_serv" placeholder="41.216.190.85" onchange="simpanConfig()">
-
-            <div class="grid">
-                <div><label>Bot Token Telegram</label><input type="password" id="tok" onchange="simpanConfig()"></div>
-                <div><label>Chat ID Telegram</label><input type="text" id="cid" onchange="simpanConfig()"></div>
-            </div>
-
-            <label>Nama Pelanggan (No. Urut: <span id="noUrutDisplay" style="color:var(--primary-color)">1</span>)</label>
-            <input type="text" id="n" placeholder="Nama Pelanggan">
-
-            <div class="grid">
-                <div><label>WhatsApp</label><input type="number" id="wa" placeholder="628xxx"></div>
-                <div><label>Layanan</label>
-                    <select id="lay">
-                        <option value="VPN">VPN REMOTE</option>
-                        <option value="PPPOE">PPPOE INTERNET</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="grid">
-                <div><label>Harga (Rp)</label><input type="number" id="hrg" value="25000"></div>
-                <div><label>Masa Aktif (Hari)</label><input type="number" id="hr" value="30"></div>
-            </div>
-
-            <button onclick="buat()" style="background: linear-gradient(45deg, #00b362, #00ff88);">SIMPAN & GENERATE</button>
-
-            <div id="result" class="result-box">
-                <div class="label-row"><label>Script Scheduler (Telegram & Putus):</label><button class="btn-copy" onclick="copyText('sSch')">COPY</button></div>
-                <textarea id="sSch" readonly></textarea>
-                
-                <div class="label-row"><label>Script Server (Paste di Server):</label><button class="btn-copy" onclick="copyText('sServ')">COPY</button></div>
-                <textarea id="sServ" readonly></textarea>
-                
-                <div class="label-row"><label>Script Client & Info Port:</label><button class="btn-copy" onclick="copyText('sCli')">COPY</button></div>
-                <textarea id="sCli" readonly style="height: 120px;"></textarea>
-                
-                <div class="grid" style="margin-top: 10px;">
-                    <button class="btn-wa" onclick="kirimWA()">Kirim WA</button>
-                    <button class="btn-cal" onclick="tambahKalender()">Kalender</button>
-                </div>
-            </div>
-
-            <table>
-                <thead><tr><th>No</th><th>Nama & Sisa Waktu</th><th>Tempo</th><th>Harga</th></tr></thead>
-                <tbody id="tabelRiwayat"></tbody>
-            </table>
-            <div class="rekap-box">
-                <div class="rekap-row"><span>Total Omset:</span><span id="totalTagihan">Rp 0</span></div>
-            </div>
-            <button onclick="hapusSemua()" style="background:#ff4d4d; margin-top:15px; font-size:10px; padding:10px;">RESET DATABASE</button>
+    <div style="background: rgba(255,204,0,0.05); padding: 12px; border-radius: 12px; border: 1px solid #333;">
+        <label>IP Public Server Anda</label>
+        <input type="text" id="ipS" placeholder="41.216.190.85" onchange="simpanConfig()">
+        <div class="grid">
+            <div><label>Token Bot</label><input type="password" id="sTok" onchange="simpanConfig()"></div>
+            <div><label>Chat ID</label><input type="text" id="sCid" onchange="simpanConfig()"></div>
         </div>
     </div>
 
-    <script>
-        function muatAwal() {
-            document.getElementById('tok').value = localStorage.getItem('rm_token') || '';
-            document.getElementById('cid').value = localStorage.getItem('rm_cid') || '';
-            document.getElementById('ip_serv').value = localStorage.getItem('rm_ip') || '41.216.190.85';
-            muatRiwayat();
+    <label>Nama Mitra / Partner</label>
+    <input type="text" id="mName" placeholder="Contoh: Mitra_A">
+
+    <div class="grid">
+        <div><label>Kontrak (Hari)</label><input type="number" id="mDay" value="30"></div>
+        <div><label>Harga Sewa (Rp)</label><input type="number" id="mPrice" value="100000"></div>
+    </div>
+    
+    <label>Mulai Port (Auto +100)</label>
+    <input type="number" id="pStart" value="5000">
+
+    <button id="btnGen" onclick="prosesMaster()">AKTIFKAN JALUR MITRA</button>
+
+    <div id="result" class="output-box">
+        <div id="boxScriptUtama">
+            <label>1. Script SERVER (VPN & NAT):</label>
+            <div class="copy-btn" onclick="copy('scS')">COPY</div>
+            <textarea id="scS" readonly></textarea>
+
+            <label style="margin-top:10px">2. Script CLIENT (Kirim ke Mitra):</label>
+            <div class="copy-btn" onclick="copy('scC')">COPY</div>
+            <textarea id="scC" readonly></textarea>
+
+            <label style="margin-top:10px">3. Script SCHEDULER (Limit Waktu):</label>
+            <div class="copy-btn" onclick="copy('scSch')">COPY</div>
+            <textarea id="scSch" readonly></textarea>
+        </div>
+
+        <div id="boxRenewScript" style="display:none;">
+            <label style="color:#00d4ff">RENEW KONTRAK MITRA (UPDATE SERVER):</label>
+            <div class="copy-btn" onclick="copy('scRenewSingle')">COPY</div>
+            <textarea id="scRenewSingle" readonly style="color:#00d4ff"></textarea>
+        </div>
+
+        <button id="btnTriggerRenew" class="btn-renew-action" style="display:none;" onclick="buatScriptPerpanjang()">BUAT SCRIPT PERPANJANG</button>
+        <button class="btn-close" onclick="tutupBoxScript()">TUTUP KOTAK SCRIPT</button>
+    </div>
+
+    <table>
+        <thead><tr><th>No. Nama Mitra</th><th>Kontrak</th><th>Range Port & Harga</th></tr></thead>
+        <tbody id="listBody"></tbody>
+    </table>
+
+    <div class="rekap-box">
+        <div class="rekap-row"><span>Total Pendapatan:</span><span id="totalOmzet">Rp 0</span></div>
+    </div>
+
+    <button onclick="hapusSemua()" style="background:#450a0a; color:#fff; font-size:9px; margin-top:20px; padding:8px; border:none; border-radius:5px; width:100%; cursor:pointer;">HAPUS SEMUA DATABASE MITRA</button>
+</div>
+
+<script>
+    var indexAktif = null;
+
+    function simpanConfig() {
+        localStorage.setItem('master_ip', document.getElementById('ipS').value);
+        localStorage.setItem('master_tok', document.getElementById('sTok').value);
+        localStorage.setItem('master_cid', document.getElementById('sCid').value);
+    }
+
+    function muatData() {
+        document.getElementById('ipS').value = localStorage.getItem('master_ip') || '';
+        document.getElementById('sTok').value = localStorage.getItem('master_tok') || '';
+        document.getElementById('sCid').value = localStorage.getItem('master_cid') || '';
+        refreshTable();
+        autoPort();
+    }
+
+    function autoPort() {
+        let db = JSON.parse(localStorage.getItem('master_db') || '[]');
+        if(db.length > 0) {
+            let maxPort = Math.max(...db.map(m => parseInt(m.ps)));
+            document.getElementById('pStart').value = maxPort + 100;
+        } else {
+            document.getElementById('pStart').value = 5000;
         }
+    }
 
-        function simpanConfig() {
-            localStorage.setItem('rm_token', document.getElementById('tok').value);
-            localStorage.setItem('rm_cid', document.getElementById('cid').value);
-            localStorage.setItem('rm_ip', document.getElementById('ip_serv').value);
+    function prosesMaster() {
+        const ip = document.getElementById('ipS').value;
+        const tok = document.getElementById('sTok').value;
+        const cid = document.getElementById('sCid').value;
+        const name = document.getElementById('mName').value.replace(/\s+/g, '_');
+        const start = parseInt(document.getElementById('pStart').value);
+        const day = parseInt(document.getElementById('mDay').value);
+        const price = document.getElementById('mPrice').value;
+        const end = start + 99;
+        const pass = name + "123";
+
+        let db = JSON.parse(localStorage.getItem('master_db') || '[]');
+        let nextX = Math.floor(db.length / 253);
+        let nextY = (db.length % 253) + 2;
+        const vpnIp = "172.19." + nextX + "." + nextY;
+
+        if(!ip || !name || !start) return alert("Mohon lengkapi data!");
+
+        let exp = new Date(); exp.setDate(exp.getDate() + day);
+        let tglSch = exp.toLocaleDateString('en-US', {month:'short', day:'2-digit', year:'numeric'}).toLowerCase().replace(/ /g, '/');
+        let tglStr = exp.toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'}).replace(/ /g, '-');
+
+        tampilkanScriptLengkap(name, pass, vpnIp, start, end, tglStr, tglSch, tok, cid, ip);
+
+        db.unshift({n:name, ps:start, pe:end, tgl:tglStr, tr:exp.getTime(), hrg: price, ip: ip, vIp: vpnIp});
+        localStorage.setItem('master_db', JSON.stringify(db));
+
+        document.getElementById('mName').value = "";
+        document.getElementById('btnTriggerRenew').style.display = "none";
+        refreshTable();
+        autoPort();
+    }
+
+    function tampilkanScriptLengkap(n, pass, vpnIp, ps, pe, tglStr, tglSch, tok, cid, ipPub) {
+        document.getElementById('scS').value = `/ppp secret add name="${n}" password="${pass}" service=l2tp remote-address=${vpnIp} local-address=172.19.0.1 comment="EXP_${tglStr}";\n/ip firewall nat add action=dst-nat chain=dstnat dst-port=${ps}-${pe} protocol=tcp to-addresses=${vpnIp} comment="NAT_${n}";`;
+        document.getElementById('scC').value = `/interface l2tp-client add connect-to=${ipPub} user="${n}" password="${pass}" name="RM-TUNNEL" disabled=no;`;
+        let ev = `/ppp secret disable [find name="${n}"]; /ip firewall nat disable [find comment="NAT_${n}"]; /tool fetch url="https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=KONTRAK MITRA ${n} TELAH HABIS" keep-result=no`;
+        document.getElementById('scSch').value = `/system scheduler add name="EXP-MITRA-${n}" start-date=${tglSch} interval=1d on-event="${ev}"`;
+        
+        document.getElementById('boxScriptUtama').style.display = "block";
+        document.getElementById('boxRenewScript').style.display = "none";
+        document.getElementById('result').style.display = "block";
+    }
+
+    function tutupBoxScript() {
+        document.getElementById('result').style.display = "none";
+    }
+
+    function refreshTable() {
+        let db = JSON.parse(localStorage.getItem('master_db') || '[]');
+        let html = ""; let skrg = new Date().getTime(); let total = 0;
+        db.forEach((m, idx) => {
+            total += parseInt(m.hrg || 0);
+            let sisa = Math.ceil((m.tr - skrg) / (1000*60*60*24));
+            html += `<tr>
+                <td onclick="panggilDataLengkap(${idx})"><span class="btn-del" onclick="hapusSatu(${idx})">X</span> ${idx + 1}. <b>${m.n}</b><span class="sisa-teks">${sisa > 0 ? sisa+' Hari' : 'EXP'}</span></td>
+                <td onclick="panggilDataLengkap(${idx})">${m.tgl}</td>
+                <td>Rp ${parseInt(m.hrg).toLocaleString()}<span class="info-port">VPN: ${m.vIp} | Port: ${m.ps}-${m.pe}</span></td>
+            </tr>`;
+        });
+        document.getElementById('listBody').innerHTML = html;
+        document.getElementById('totalOmzet').innerText = "Rp " + total.toLocaleString();
+    }
+
+    function panggilDataLengkap(idx) {
+        let db = JSON.parse(localStorage.getItem('master_db'));
+        let m = db[idx];
+        let tok = document.getElementById('sTok').value;
+        let cid = document.getElementById('sCid').value;
+        let pass = m.n + "123";
+        let tglObj = new Date(m.tr);
+        let tglSch = tglObj.toLocaleDateString('en-US', {month:'short', day:'2-digit', year:'numeric'}).toLowerCase().replace(/ /g, '/');
+
+        tampilkanScriptLengkap(m.n, pass, m.vIp, m.ps, m.pe, m.tgl, tglSch, tok, cid, m.ip);
+        
+        indexAktif = idx;
+        document.getElementById('btnTriggerRenew').style.display = "block";
+        window.scrollTo({top: 150, behavior: 'smooth'});
+    }
+
+    function buatScriptPerpanjang() {
+        let db = JSON.parse(localStorage.getItem('master_db'));
+        let m = db[indexAktif];
+        let day = parseInt(document.getElementById('mDay').value);
+        let exp = new Date(); exp.setDate(exp.getDate() + day);
+        let tglSch = exp.toLocaleDateString('en-US', {month:'short', day:'2-digit', year:'numeric'}).toLowerCase().replace(/ /g, '/');
+        let tglStr = exp.toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'}).replace(/ /g, '-');
+
+        document.getElementById('scRenewSingle').value = `/ppp secret enable [find name="${m.n}"]; /ppp secret set [find name="${m.n}"] comment="EXP_${tglStr}";\n/ip firewall nat enable [find comment="NAT_${m.n}"];\n/system scheduler set [find name="EXP-MITRA-${m.n}"] start-date=${tglSch}`;
+        
+        document.getElementById('boxScriptUtama').style.display = "none";
+        document.getElementById('boxRenewScript').style.display = "block";
+        document.getElementById('btnTriggerRenew').style.display = "none";
+
+        m.tgl = tglStr; m.tr = exp.getTime();
+        db[indexAktif] = m;
+        localStorage.setItem('master_db', JSON.stringify(db));
+        refreshTable();
+    }
+
+    function hapusSatu(idx) {
+        if(confirm("Hapus mitra ini?")) {
+            let db = JSON.parse(localStorage.getItem('master_db'));
+            db.splice(idx, 1);
+            localStorage.setItem('master_db', JSON.stringify(db));
+            refreshTable();
+            autoPort();
         }
+    }
 
-        function copyText(id) {
-            document.getElementById(id).select();
-            document.execCommand("copy");
-            alert("Disalin!");
-        }
-
-        var dG = {}; 
-        function buat() {
-            var n = document.getElementById('n').value, l = document.getElementById('lay').value, hr = document.getElementById('hr').value;
-            var hrg = document.getElementById('hrg').value, tok = document.getElementById('tok').value, cid = document.getElementById('cid').value, wa = document.getElementById('wa').value;
-            var ipS = document.getElementById('ip_serv').value;
-            if(!n || !wa) return alert("Isi Nama & WA!");
-
-            var h = JSON.parse(localStorage.getItem('rm_gen') || '[]');
-            var indexLama = h.findIndex(item => item.nama === n);
-            var noUrut = (indexLama !== -1) ? h[indexLama].no : h.length + 1;
-
-            var pX = 9090 + noUrut, pW = 8080 + noUrut; 
-
-            var tglExp = new Date(); tglExp.setDate(tglExp.getDate() + parseInt(hr));
-            var tStr = tglExp.toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' }).replace(/ /g, '-');
-            var tSch = tglExp.toLocaleDateString('en-US', { month:'short', day:'2-digit', year:'numeric' }).toLowerCase().replace(/ /g, '/');
-            var pass = "rm" + Math.floor(100 + Math.random() * 899);
-
-            var ev = (l === 'VPN') ? `/ip firewall nat remove [find comment="${n}"];` : `/ppp secret disable [find name="${n}"];`;
-            ev += ` /tool fetch url="https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=Layanan ${l} ${n} EXPIRED" keep-result=no`;
-            document.getElementById('sSch').value = `/system scheduler add name="EXP-${n}" start-date=${tSch} interval=1d on-event="${ev}"`;
-
-            if(l === 'VPN') {
-                document.getElementById('sServ').value = `/ppp secret add name="${n}" password="${pass}" service=l2tp profile=default comment="${tStr}"; /ip firewall nat add action=dst-nat chain=dstnat dst-port=${pX} protocol=tcp to-ports=8291 comment="${n}"; /ip firewall nat add action=dst-nat chain=dstnat dst-port=${pW} protocol=tcp to-ports=80 comment="${n}";`;
-                document.getElementById('sCli').value = `# INFO LOGIN\n# Winbox: ${ipS}:${pX}\n# Mikhmon: http://${ipS}:${pW}\n# --------------------------\n{ /interface l2tp-client add connect-to=${ipS} user="${n}" password="${pass}" name="VPN-RM-NETWORK" disabled=no; /ip service set winbox port=8291; /ip service set www port=80; }`;
-            } else {
-                document.getElementById('sServ').value = `/ppp secret add name="${n}" profile=default comment="${tStr}"`;
-                document.getElementById('sCli').value = `# PPPOE INTERNET\n# Jatuh Tempo: ${tStr}\n# --------------------------\n# Setup pppoe-client manual`;
-            }
-            
-            var dataBaru = {no: noUrut, nama: n, lay: l, tempo: tStr, wa: wa, pX: pX, pW: pW, harga: hrg, tglRaw: tglExp.getTime()};
-            if(indexLama !== -1) h[indexLama] = dataBaru; else h.unshift(dataBaru);
-
-            localStorage.setItem('rm_gen', JSON.stringify(h));
-            muatRiwayat();
-            document.getElementById('result').style.display = "block";
-            dG = {wa: wa, nama: n, tStr: tStr, lay: l, ip: ipS, pX: pX, pW: pW, sc: document.getElementById('sCli').value, hrg: hrg, tgl: tglExp};
-        }
-
-        function muatUlangPelanggan(index) {
-            var h = JSON.parse(localStorage.getItem('rm_gen'));
-            var p = h[index];
-            document.getElementById('n').value = p.nama;
-            document.getElementById('wa').value = p.wa;
-            document.getElementById('lay').value = p.lay;
-            document.getElementById('hrg').value = p.harga;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            buat();
-        }
-
-        function muatRiwayat() {
-            var h = JSON.parse(localStorage.getItem('rm_gen') || '[]');
-            var b = document.getElementById('tabelRiwayat');
-            var total = 0; b.innerHTML = "";
-            var skrg = new Date().getTime();
-            h.forEach((item, index) => {
-                total += parseInt(item.harga || 0);
-                var sisa = Math.ceil((item.tglRaw - skrg) / (1000 * 60 * 60 * 24));
-                var teksSisa = sisa > 0 ? sisa + " Hari Lagi" : "EXPIRED";
-                b.innerHTML += `<tr class="clickable" onclick="muatUlangPelanggan(${index})"><td>${item.no}</td><td><b>${item.nama}</b><span class="sisa-waktu">${teksSisa}</span></td><td>${item.tempo}</td><td>${parseInt(item.harga).toLocaleString()}</td></tr>`;
-            });
-            document.getElementById('noUrutDisplay').innerText = h.length + 1;
-            document.getElementById('totalTagihan').innerText = "Rp " + total.toLocaleString();
-        }
-
-        function kirimWA() {
-            var msg = `*[ RM-NETWORK ]*%0AHalo *Kak ${dG.nama}*,%0A%0ATagihan: *Rp ${parseInt(dG.hrg).toLocaleString()}*%0AAktif s/d: *${dG.tStr}*%0A━━━━━━━━━━━━━━━%0A`;
-            if(dG.lay === 'VPN') msg += `🖥️ *Winbox:* ${dG.ip}:${dG.pX}%0A🌐 *Mikhmon:* http://${dG.ip}:${dG.pW}%0A`;
-            msg += `━━━━━━━━━━━━━━━%0A*Script MikroTik:*%0A\`${dG.sc}\`%0A%0ATerima kasih!`;
-            window.open(`https://wa.me/${dG.wa}?text=${msg}`);
-        }
-
-        function tambahKalender() {
-            var start = dG.tgl.toISOString().replace(/-|:|\.\d\d\d/g, "");
-            var title = encodeURIComponent(`JATUH TEMPO: ${dG.nama}`);
-            var details = encodeURIComponent(`Layanan: ${dG.lay}\nPort Winbox: ${dG.pX}\nPort Mikhmon: ${dG.pW}`);
-            window.open(`https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${start}&details=${details}`);
-        }
-
-        function hapusSemua() { if(confirm("Hapus semua database?")) { localStorage.removeItem('rm_gen'); muatRiwayat(); } }
-    </script>
+    function copy(id) { document.getElementById(id).select(); document.execCommand("copy"); alert("Disalin!"); }
+    function hapusSemua() { if(confirm("Hapus semua data mitra?")) { localStorage.removeItem('master_db'); refreshTable(); autoPort(); } }
+</script>
 </body>
 </html>
